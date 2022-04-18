@@ -1,0 +1,61 @@
+NOTE TO ADOPTERS: if you wish to be kept updated on new versions of the 
+ARCTools, or to report bugs, send mail to neuville@colorado.edu.
+
+*******************************
+Changes in version 2.0.2
+by Michael Wilson, V. P. Heuring (August 9, 2005)
+
+Additional Features:
+ - New Instructions: all branch instructions, andn, andncc, xnor, xnorcc.
+ - More syntax formats added to 'ld' and 'ta' instructions.
+ - Macro parameters: can now accept literals and symbols (Const()).
+ - Conditional code supported: using .if and .endif
+ - Interrupt enable bit added to CRT and keyboard.
+
+Fixes:
+ - Edit window filing code is more efficient, readable and organized.  It also
+   had a few bugs.
+
+*******************************
+Changes in version 2.0.1
+by Michael Wilson, V. P. Heuring (July 22, 2005)
+
+Additional Features:
+Traps - the 'ta' instruction and keyboard interrupts were added.
+Other supporting instructions: rett, rd, wr.  rett is return from trap.
+rd is used to read %psr or %tbr, and wr is used to write the %psr.
+
+Interrupt panel redesigned.  It displays the 'ireq' indicator (interrupt
+request), ET (enable traps), PIL (process interrupt level), and TBR (trap base
+register).  ET and PIL are collectively part of %psr (processor state
+register).
+
+Macros definitions can now have labels.  At expansion time the labels are
+prefixed with '_' and postfixed with a number to make the labels in each
+expansion unique.
+
+Fixes:
+Any code that is to be assembled must fall within a .begin and .end pair.
+
+Boundary checking for constants was improved (e.g. can a constant be represented in
+13 bits?)
+
+*******************************
+Changes in version 2.0.0
+by Michael Wilson, V. P. Heuring (June 13, 2005)
+
+Additional Features:
+Added macro support to assembly language. Macros can call other macros,
+but recursive loops are not allowed and are detected.
+
+Fixes:
+Moved the cursor label in the edit window.
+Enlarged the main window.
+Fixed the DefineSpace production: commas were optional in array definitions;
+now they are required.
+Nop's appeared as the most recent .equ in .lst files.
+
+*******************************
+Original version 1.0.0:
+by Shane Neuville, V. P. Heuring (August 19, 2003)
+Completed conversion of SRCTools written by Ross Zwisler to ARCTools.

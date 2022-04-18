@@ -1,0 +1,25 @@
+(ARCTools Version 2.0.2)
+ HexLoc     DecLoc    MachWord   Label        Instruction                Comment
+                                                                         !Starts assembling
+                                              .org 2048                  !Changes location counter to start at address 2048
+00000800  0000002048  c2002824  m_start:      ld [2084], %r1             !Loads memory address of variable x into register 1										11 00001 000000 00000 1 0100000100100
+00000804  0000002052  c4002828                ld [2088], %r2             !Loads memory address of variable y into register 2											11 00010 000000 00000 1 0100000101000
+00000808  0000002056  80a04002                subcc %r1, %r2, %r0        !Subtracts data from register 1 with register 2 into register 0 (discard)							10 00000 010100 00001 0 0000000000010
+0000080c  0000002060  0c800003                bneg 3                     !If subtraction results in negative value (N flag), jumps to else label									00 0 0110 010	0000000000000000000011
+00000810  0000002064  86884002                andcc %r1, %r2, %r3        !If subtraction is positive, does an logic and operation with register 1 and register 2 into register 3		10 00011 010001 00001 0 0000000000010	
+00000814  0000002068  10800002                ba 2                       !Branch always, will always jump to the done label												00 0 1000 010	0000000000000000000010
+00000818  0000002072  86904002  else:         orcc %r1, %r2, %r3         !When subtraction is negative, performs logic or operation with register 1 and register 2 into register 3		10 00011 010010 00001 0 0000000000010
+0000081c  0000002076  c620282c  done:         st %r3, [2092]             !Always branches to this, stores data from register 3 into variable a								11 00001 000100 00000 1 0100000101100
+00000820  0000002080  81c3e004                jmpl %r15, 4, %r0          !Return																	10 00000 111000 01111 1 0000000000100
+00000824  0000002084  0000001e  x:                                       !Declare x as 30 (0000000011110)
+00000828  0000002088  00000030  y:                                       !Declare y as 48 (0000000110000)
+0000082c  0000002092  00000000  a:                                       !Declare a as 0 (0000000000000)
+                                                                         !Stops assembling
+
+--- Symbol Table ---
+x: 2084
+a: 2092
+done: 2076
+m_start: 2048
+else: 2072
+y: 2088

@@ -1,0 +1,27 @@
+(ARCTools Version 2.0.2)
+ HexLoc     DecLoc    MachWord   Label        Instruction                Comment
+                                                                         !Starts assembling
+                                              .org 2048                  !Changes location counter to address 2048
+                                              .equ 4000                  !Tells assembler to equate 4000 to dstart
+00000800  0000002048  c2002fa0                ld [4000], %r1             !Loads data from variable a to register 1 								11 00001 000000 00000 1 0111110100000
+00000804  0000002052  c4002fa4                ld [4004], %r2             !Loads data from variable b to register 2 								11 00010 000000 00000 1 0111110100100
+00000808  0000002056  c6002fa8                ld [4008], %r3             !Loads data from variable c to register 3 								11 00011 000000 00000 1 0111110101000
+0000080c  0000002060  80808003                addcc %r2, %r3, %r0        !Adds binary value data of register 2 and 3, storing the result in register 0	10 00000 010000 00010 0 0000000000011
+00000810  0000002064  88804000                addcc %r1, %r0, %r4        !Adds binary value data of register 1 and 0, storing the result in register 4	10 00100 010000 00001 0 0000000000000
+00000814  0000002068  84a08004                subcc %r2, %r4, %r2        !Adds binary value data of register 2 and 4, storing the result in register 2	10 00010 010100 00010 0 0000000000100
+00000818  0000002072  c0202fa0                st %r0, [4000]             !Stores (writes) data from register 0 into a.							11 00000 000100 00000 1 0111110100000
+0000081c  0000002076  c4202fac                st %r2, [4012]             !Stores (writes) data from register 2 into y.							11 00010 000100 00000 1 0111110101100
+00000820  0000002080  81c3e004                jmpl %r15, 4, %r0          !Return												10 00000 111000 01111 1 0000000000100
+                                              .org dstart                !Changes location counter to address of dstart
+00000fa0  0000004000  0000000f  a:                                       !Declare a as 15 (0000000001111)
+00000fa4  0000004004  00000036  b:                                       !Declare b as 54 (0000000110110)
+00000fa8  0000004008  ffffffe3  c:                                       !Declare c as -29 (1111111100011)
+00000fac  0000004012  00000000  y:                                       !Declare y as 0 (0000000000000)
+                                                                         !Stops assembling
+
+--- Symbol Table ---
+b: 4004
+dstart: 4000
+a: 4000
+y: 4012
+c: 4008

@@ -1,0 +1,47 @@
+(ARCTools Version 2.0.2)
+ HexLoc     DecLoc    MachWord   Label        Instruction                Comment
+                                                                         ! Starts assembling
+                                              .equ 0x3fffc0              !Starting point of the memory mapped region 
+                                              .equ 0x0                   !0xffff0000 Console Data Port 
+                                              .equ 0x4                   !0xffff0004 Console Status Port 
+                                              .org 2048                  ! Change location counter to 2048
+00000800  0000002048  84000000                add %r0, %r0, %r2          ! %r2 <-- %r0 + %r0
+00000804  0000002052  88000000                add %r0, %r0, %r4          ! %r4 <-- %r0 + %r0
+00000808  0000002056  093fffc0                sethi 4194240, %r4         ! Sets 22 MSB of %r4 to BASE and 10 LSB to zero
+0000080c  0000002060  c600abb8  Loop:         ld %r2, [3000], %r3        !Load next char into r3 
+00000810  0000002064  8680c000                addcc %r3, %r0, %r3        ! %r3 <-- %r3 + %r0
+00000814  0000002068  02800007                be 7                       ! stop if null (Checks when %r3 is zero)
+00000818  0000002072  c2012004  Wait:         ld %r4, [4], %r1           ! Loads 
+0000081c  0000002076  82886080                andcc %r1, 128, %r1        ! %r1 <-- And operation between %r1 and 0x80
+00000820  0000002080  02bffffe                be -2                      ! If equal to zero, repeats Wait label
+00000824  0000002084  c6212000                st %r3, %r4, [0]           !Print to console (Store %r3 in %r4+COUT)
+00000828  0000002088  8400a004                add %r2, 4, %r2            !increment String offset (r2) 
+0000082c  0000002092  10bffff8                ba -8                      ! Branch always, loops back to Loop label
+00000830  0000002096  ffffffff  End:          halt                       !A non-standard instruction to stop the simulator 
+                                              .org 3000                  ! Change location counter to 3000
+                                                                         ! The "Hello, world!" string 
+00000bb8  0000003000  00000048  String:                                  
+00000bbc  0000003004  00000065
+00000bc0  0000003008  0000006c
+00000bc4  0000003012  0000006c
+00000bc8  0000003016  0000006f
+00000bcc  0000003020  0000002c                                           
+00000bd0  0000003024  00000020
+00000bd4  0000003028  00000077
+00000bd8  0000003032  0000006f
+00000bdc  0000003036  00000072
+00000be0  0000003040  0000006c                                           
+00000be4  0000003044  00000064
+00000be8  0000003048  00000021
+00000bec  0000003052  0000000a
+00000bf0  0000003056  00000000
+                                                                         ! Stops assembling
+
+--- Symbol Table ---
+BASE: 4194240
+String: 3000
+Wait: 2072
+End: 2096
+COUT: 0
+Loop: 2060
+COSTAT: 4

@@ -1,0 +1,23 @@
+(ARCTools Version 2.0.2)
+ HexLoc     DecLoc    MachWord   Label        Instruction                Comment
+                                                                         !Starts assembling
+                                              .org 2048                  !Changes location counter to start at address 2048
+00000800  0000002048  c4002bb8  main:         ld [3000], %r2             !Loads memory address of variable x into register 2			11 00010 000000 00000 1 0101110111000		
+00000804  0000002052  80a06004  top:          subcc %r1, 4, %r0          !Subtracts register 1 with constant 4 into register 0		10 00000 010100 00001 1 0000000000100
+00000808  0000002056  02800004                be 4                       !Branch to label done if equal to zero							00 0 0001 010 0000000000000000000100
+0000080c  0000002060  8530a001                srl %r2, 1, %r2            !Shifts register 2 to the right by 1 bit and stores into register 2 	10 00010 100110 00010 1 0000000000001
+00000810  0000002064  82806001                addcc %r1, 1, %r1          !Adds content of register 1 with constant 1 storing it in register 1 	10 00001 010000 00001 1 0000000000001
+00000814  0000002068  10bffffc                ba -4                      !Branches always back to label top (loop) until be condition is met			00 0 1000 010 1111111111111111111100
+00000818  0000002072  c6202bbc  done:         st %r3, [3004]             !Branches once equal to zero, stores register 3 into memory location y 	11 00011 000100 00000 1 0101110111100
+0000081c  0000002076  81c3e004                jmpl %r15, 4, %r0          !Return 										10 00000 111000 01111 1 0000000000100
+                                              .org 3000                  !Changes location counter to start at address 3000
+00000bb8  0000003000  00000320  x:                                       !Declare x as 800 (0001100100000)
+00000bbc  0000003004  00000000  y:                                       !Declare y as 0 (0000000000000)
+                                                                         !Stops assembling
+
+--- Symbol Table ---
+x: 3000
+main: 2048
+done: 2072
+top: 2052
+y: 3004

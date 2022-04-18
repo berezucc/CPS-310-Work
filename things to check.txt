@@ -1,0 +1,7 @@
+AddressDef
+
+Fix CC position
+
+Fix up CCRegisterPanel using a valueField HEx Inpute Field
+
+Make it so from the MAIN GUI if I LOAD an ASM it opens the editor with a file
